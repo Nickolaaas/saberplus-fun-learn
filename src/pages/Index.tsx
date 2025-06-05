@@ -87,6 +87,13 @@ const Index = () => {
               <a href="#solucoes" className="text-gray-700 hover:text-blue-600 transition-colors">Soluções</a>
               <a href="#personalizacao" className="text-gray-700 hover:text-blue-600 transition-colors">Personalização</a>
               <a href="#contato" className="text-gray-700 hover:text-blue-600 transition-colors">Contato</a>
+              <Button 
+                onClick={() => window.location.href = '/login'}
+                variant="outline"
+                className="mr-2"
+              >
+                Entrar
+              </Button>
               <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
                 Solicitar Demonstração
               </Button>
@@ -108,6 +115,12 @@ const Index = () => {
                 <a href="#solucoes" className="text-gray-700 hover:text-blue-600 transition-colors">Soluções</a>
                 <a href="#personalizacao" className="text-gray-700 hover:text-blue-600 transition-colors">Personalização</a>
                 <a href="#contato" className="text-gray-700 hover:text-blue-600 transition-colors">Contato</a>
+                <Button 
+                  onClick={() => window.location.href = '/login'}
+                  variant="outline"
+                >
+                  Entrar
+                </Button>
                 <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
                   Solicitar Demonstração
                 </Button>
@@ -136,9 +149,14 @@ const Index = () => {
               <Building2 className="mr-2 h-5 w-5" />
               Agendar Reunião
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-2 hover:bg-gray-50">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="text-lg px-8 py-4 border-2 hover:bg-gray-50"
+              onClick={() => window.location.href = '/login'}
+            >
               <PlayCircle className="mr-2 h-5 w-5" />
-              Ver Demonstração
+              Acessar Plataforma
             </Button>
           </div>
         </div>
