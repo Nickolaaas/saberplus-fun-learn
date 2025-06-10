@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +11,8 @@ import {
   Award,
   TrendingUp,
   Star,
-  LogOut
+  LogOut,
+  MessageSquare
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -190,6 +190,33 @@ const StudentDashboard = () => {
                 ))}
               </CardContent>
             </Card>
+
+            {/* Nova seção para acesso rápido */}
+            <div className="grid md:grid-cols-3 gap-4 mt-6">
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate("/achievements")}>
+                <CardContent className="p-4 text-center">
+                  <Award className="h-8 w-8 mx-auto mb-2 text-yellow-500" />
+                  <h3 className="font-medium">Conquistas</h3>
+                  <p className="text-sm text-gray-600">Ver badges e metas</p>
+                </CardContent>
+              </Card>
+              
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate("/forum")}>
+                <CardContent className="p-4 text-center">
+                  <MessageSquare className="h-8 w-8 mx-auto mb-2 text-blue-500" />
+                  <h3 className="font-medium">Fórum</h3>
+                  <p className="text-sm text-gray-600">Tire suas dúvidas</p>
+                </CardContent>
+              </Card>
+              
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                <CardContent className="p-4 text-center">
+                  <BookOpen className="h-8 w-8 mx-auto mb-2 text-purple-500" />
+                  <h3 className="font-medium">Histórico</h3>
+                  <p className="text-sm text-gray-600">Ver resultados anteriores</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
 
           {/* Ranking da Turma */}

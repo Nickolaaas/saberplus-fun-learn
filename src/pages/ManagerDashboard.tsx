@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,7 +17,8 @@ import {
   Award,
   Edit,
   Trash2,
-  Eye
+  Eye,
+  MessageSquare
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -88,9 +88,19 @@ const ManagerDashboard = () => {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
+              <Button 
+                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+                onClick={() => navigate("/create-quiz")}
+              >
                 <Plus className="h-4 w-4 mr-2" />
                 Criar Quiz
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => navigate("/reports")}
+              >
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Relatórios
               </Button>
               <Button 
                 variant="outline" 
@@ -107,11 +117,12 @@ const ManagerDashboard = () => {
 
       <div className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Visão Geral</TabsTrigger>
             <TabsTrigger value="quizzes">Meus Quizzes</TabsTrigger>
             <TabsTrigger value="classes">Turmas</TabsTrigger>
             <TabsTrigger value="reports">Relatórios</TabsTrigger>
+            <TabsTrigger value="forum">Fórum</TabsTrigger>
           </TabsList>
           
           <TabsContent value="overview" className="space-y-8">
@@ -271,8 +282,6 @@ const ManagerDashboard = () => {
           </TabsContent>
           
           <TabsContent value="reports" className="space-y-6">
-            <h2 className="text-2xl font-bold">Relatórios e Análises</h2>
-            
             <div className="grid lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
@@ -280,9 +289,13 @@ const ManagerDashboard = () => {
                   <CardDescription>Gere relatórios detalhados sobre o desempenho</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start"
+                    onClick={() => navigate("/reports")}
+                  >
                     <BarChart3 className="h-4 w-4 mr-2" />
-                    Relatório de Desempenho por Turma
+                    Relatório de Desempenho Completo
                   </Button>
                   <Button variant="outline" className="w-full justify-start">
                     <Users className="h-4 w-4 mr-2" />
@@ -327,6 +340,36 @@ const ManagerDashboard = () => {
               </Card>
             </div>
           </TabsContent>
+          
+          <TabsContent value="forum" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Fórum de Dúvidas</CardTitle>
+                <CardDescription>Gerencie as dúvidas dos alunos</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="p-4 border rounded-lg">
+                    <h3 className="font-medium mb-2">Perguntas Pendentes</h3>
+                    <div className="text-2xl font-bold text-orange-600">8</div>
+                    <p className="text-sm text-gray-600">aguardando resposta</p>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <h3 className="font-medium mb-2">Suas Respostas</h3>
+                    <div className="text-2xl font-bold text-green-600">24</div>
+                    <p className="text-sm text-gray-600">este mês</p>
+                  </div>
+                </div>
+                <Button 
+                  className="w-full bg-gradient-to-r from-blue-500 to-purple-500"
+                  onClick={() => navigate("/forum")}
+                >
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  Acessar Fórum
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
       </div>
     </div>
@@ -334,3 +377,5 @@ const ManagerDashboard = () => {
 };
 
 export default ManagerDashboard;
+
+</initial_code>
