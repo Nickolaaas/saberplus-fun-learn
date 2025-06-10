@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -377,5 +378,3 @@ const ManagerDashboard = () => {
 };
 
 export default ManagerDashboard;
-
-</initial_code>
