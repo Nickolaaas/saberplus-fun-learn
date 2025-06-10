@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,7 +31,7 @@ const SelectProfile = () => {
     },
     {
       id: "manager",
-      title: "Gestor/Professor",
+      title: "Professor",
       description: "Gerencie turmas, crie quizzes e acompanhe o desempenho dos alunos",
       icon: <Settings className="h-12 w-12 text-purple-500" />,
       features: [
