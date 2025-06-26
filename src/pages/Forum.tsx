@@ -4,99 +4,80 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { 
   MessageSquare, 
-  Plus, 
+  ThumbsUp, 
+  MessageCircle, 
+  Send,
   Search,
-  ThumbsUp,
-  MessageCircle,
-  Clock,
-  User,
-  BookOpen,
   Filter,
-  Star
+  Plus,
+  BookOpen,
+  LogOut
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Forum = () => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [newQuestion, setNewQuestion] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const forumPosts = [
+  const questions = [
     {
       id: 1,
-      title: "Como resolver equações do segundo grau?",
-      content: "Estou com dificuldades para entender a fórmula de Bhaskara. Alguém pode me explicar passo a passo?",
+      title: "Como resolver equação do 2º grau?",
+      content: "Estou com dificuldade em entender o método de Bhaskara. Alguém pode me ajudar?",
       author: "João Silva",
       subject: "Matemática",
-      date: "2024-01-15T10:30:00",
       likes: 12,
-      replies: 5,
-      solved: true,
-      tags: ["equação", "bhaskara", "matemática"]
+      replies: 8,
+      timeAgo: "2 horas atrás",
+      status: "answered"
     },
     {
       id: 2,
-      title: "Período Composto - Português",
-      content: "Preciso de ajuda para identificar orações subordinadas em períodos compostos.",
+      title: "Dúvida sobre Segunda Guerra Mundial",
+      content: "Qual foi o papel do Brasil na Segunda Guerra Mundial?",
       author: "Maria Santos",
-      subject: "Português",
-      date: "2024-01-14T14:20:00",
+      subject: "História",
       likes: 8,
-      replies: 3,
-      solved: false,
-      tags: ["português", "gramática", "sintaxe"]
+      replies: 5,
+      timeAgo: "5 horas atrás",
+      status: "pending"
     },
     {
       id: 3,
-      title: "Guerra Fria - Resumo",
-      content: "Alguém tem um bom resumo sobre a Guerra Fria? Principalmente sobre os principais eventos.",
+      title: "Sistema Solar - Planetas",
+      content: "Por que Plutão não é mais considerado um planeta?",
       author: "Pedro Costa",
-      subject: "História",
-      date: "2024-01-13T16:45:00",
-      likes: 15,
-      replies: 8,
-      solved: false,
-      tags: ["história", "guerra-fria", "século-xx"]
-    },
-    {
-      id: 4,
-      title: "Fotossíntese - Processo",
-      content: "Como explicar o processo de fotossíntese de forma simples?",
-      author: "Ana Lima",
       subject: "Ciências",
-      date: "2024-01-12T09:15:00",
-      likes: 6,
-      replies: 4,
-      solved: true,
-      tags: ["ciências", "biologia", "fotossíntese"]
+      likes: 15,
+      replies: 12,
+      timeAgo: "1 dia atrás",
+      status: "answered"
     }
   ];
 
-  const topContributors = [
-    { name: "Prof. Carlos", points: 245, answers: 18, badge: "Especialista" },
-    { name: "Maria Eduarda", points: 189, answers: 12, badge: "Colaboradora" },
-    { name: "João Pedro", points: 156, answers: 9, badge: "Ajudante" },
-    { name: "Ana Carolina", points: 134, answers: 8, badge: "Participativa" }
+  const recentAnswers = [
+    {
+      id: 1,
+      questionTitle: "Como resolver equação do 2º grau?",
+      content: "Para resolver uma equação do 2º grau, você pode usar a fórmula de Bhaskara...",
+      author: "Prof. Maria",
+      timeAgo: "1 hora atrás",
+      likes: 5
+    },
+    {
+      id: 2,
+      questionTitle: "Dúvida sobre Segunda Guerra Mundial",
+      content: "O Brasil entrou na guerra em 1942, enviando a FEB (Força Expedicionária Brasileira)...",
+      author: "Prof. Carlos",
+      timeAgo: "3 horas atrás",
+      likes: 8
+    }
   ];
-
-  const subjects = [
-    { name: "Matemática", posts: 45, color: "bg-blue-500" },
-    { name: "Português", posts: 38, color: "bg-green-500" },
-    { name: "História", posts: 32, color: "bg-purple-500" },
-    { name: "Ciências", posts: 28, color: "bg-orange-500" },
-    { name: "Geografia", posts: 22, color: "bg-red-500" }
-  ];
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
-    
-    if (diffInHours < 1) return "Agora há pouco";
-    if (diffInHours < 24) return `${diffInHours}h atrás`;
-    return `${Math.floor(diffInHours / 24)} dias atrás`;
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -104,217 +85,154 @@ const Forum = () => {
       <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div 
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => navigate("/")}
+            >
               <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-2 rounded-xl">
-                <MessageSquare className="h-6 w-6 text-white" />
+                <BookOpen className="h-6 w-6 text-white" />
               </div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Fórum de Dúvidas
+                Saber+ Fórum
               </h1>
             </div>
-            <Button className="bg-gradient-to-r from-blue-500 to-purple-500">
-              <Plus className="h-4 w-4 mr-2" />
-              Nova Pergunta
+            <Button 
+              variant="outline" 
+              onClick={() => navigate("/")}
+              className="flex items-center space-x-2"
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Sair</span>
             </Button>
           </div>
         </div>
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        {/* Search and Filters */}
-        <div className="mb-8">
-          <div className="flex items-center space-x-4 mb-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Pesquisar dúvidas..."
-                className="w-full pl-10 pr-4 py-2 border rounded-lg"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <Button variant="outline">
-              <Filter className="h-4 w-4 mr-2" />
-              Filtros
-            </Button>
+        {/* Search and Filter */}
+        <div className="flex items-center space-x-4 mb-8">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Input
+              placeholder="Buscar dúvidas..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
           </div>
+          <Button variant="outline">
+            <Filter className="h-4 w-4 mr-2" />
+            Filtros
+          </Button>
+          <Button className="bg-gradient-to-r from-blue-500 to-purple-500">
+            <Plus className="h-4 w-4 mr-2" />
+            Nova Pergunta
+          </Button>
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-3">
-            <Tabs defaultValue="recent" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="recent">Recentes</TabsTrigger>
-                <TabsTrigger value="unsolved">Não Resolvidas</TabsTrigger>
-                <TabsTrigger value="popular">Populares</TabsTrigger>
-                <TabsTrigger value="my-posts">Minhas Perguntas</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="recent" className="space-y-4">
-                {forumPosts.map((post) => (
-                  <Card key={post.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <Badge variant="outline">{post.subject}</Badge>
-                            {post.solved && (
-                              <Badge className="bg-green-500">
-                                Resolvida
-                              </Badge>
-                            )}
-                          </div>
-                          <CardTitle className="text-lg hover:text-blue-600 transition-colors">
-                            {post.title}
-                          </CardTitle>
-                          <CardDescription className="mt-2">
-                            {post.content}
-                          </CardDescription>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between mt-4">
-                        <div className="flex items-center space-x-4 text-sm text-gray-600">
-                          <div className="flex items-center space-x-1">
-                            <User className="h-4 w-4" />
-                            <span>{post.author}</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <Clock className="h-4 w-4" />
-                            <span>{formatDate(post.date)}</span>
-                          </div>
-                        </div>
-                        
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center space-x-1">
-                            <ThumbsUp className="h-4 w-4 text-gray-400" />
-                            <span className="text-sm">{post.likes}</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <MessageCircle className="h-4 w-4 text-gray-400" />
-                            <span className="text-sm">{post.replies}</span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="flex flex-wrap gap-2 mt-3">
-                        {post.tags.map((tag, index) => (
-                          <Badge key={index} variant="secondary" className="text-xs">
-                            #{tag}
+        <Tabs defaultValue="questions" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="questions">Perguntas</TabsTrigger>
+            <TabsTrigger value="answers">Respostas Recentes</TabsTrigger>
+            <TabsTrigger value="ask">Fazer Pergunta</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="questions" className="space-y-6">
+            <div className="space-y-4">
+              {questions.map((question) => (
+                <Card key={question.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Badge variant="outline">{question.subject}</Badge>
+                          <Badge variant={question.status === "answered" ? "default" : "secondary"}>
+                            {question.status === "answered" ? "Respondida" : "Pendente"}
                           </Badge>
-                        ))}
-                      </div>
-                    </CardHeader>
-                  </Card>
-                ))}
-              </TabsContent>
-              
-              <TabsContent value="unsolved" className="space-y-4">
-                {forumPosts.filter(post => !post.solved).map((post) => (
-                  <Card key={post.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-                    {/* Same structure as above but filtered */}
-                  </Card>
-                ))}
-              </TabsContent>
-              
-              <TabsContent value="popular" className="space-y-4">
-                {forumPosts.sort((a, b) => b.likes - a.likes).map((post) => (
-                  <Card key={post.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-                    {/* Same structure as above but sorted by likes */}
-                  </Card>
-                ))}
-              </TabsContent>
-              
-              <TabsContent value="my-posts" className="space-y-4">
-                <div className="text-center py-12">
-                  <MessageSquare className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
-                    Você ainda não fez nenhuma pergunta
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    Comece fazendo sua primeira pergunta para a comunidade!
-                  </p>
-                  <Button className="bg-gradient-to-r from-blue-500 to-purple-500">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Fazer Pergunta
-                  </Button>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Top Contributors */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Star className="h-5 w-5 mr-2 text-yellow-500" />
-                  Top Colaboradores
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {topContributors.map((contributor, index) => (
-                    <div key={index} className="flex items-center justify-between">
-                      <div>
-                        <h4 className="font-medium">{contributor.name}</h4>
-                        <p className="text-sm text-gray-600">{contributor.answers} respostas</p>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-sm font-bold">{contributor.points} pts</div>
-                        <Badge variant="outline" className="text-xs">
-                          {contributor.badge}
-                        </Badge>
+                        </div>
+                        <CardTitle className="text-lg mb-2">{question.title}</CardTitle>
+                        <CardDescription className="text-base">{question.content}</CardDescription>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Subjects */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <BookOpen className="h-5 w-5 mr-2 text-blue-500" />
-                  Matérias
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {subjects.map((subject, index) => (
-                    <div key={index} className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-3 h-3 rounded-full ${subject.color}`}></div>
-                        <span className="font-medium">{subject.name}</span>
+                    <div className="flex items-center justify-between pt-4">
+                      <div className="flex items-center space-x-4 text-sm text-gray-600">
+                        <span>{question.author}</span>
+                        <span>{question.timeAgo}</span>
                       </div>
-                      <Badge variant="secondary">{subject.posts}</Badge>
+                      <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-1">
+                          <ThumbsUp className="h-4 w-4" />
+                          <span className="text-sm">{question.likes}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <MessageCircle className="h-4 w-4" />
+                          <span className="text-sm">{question.replies}</span>
+                        </div>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Forum Guidelines */}
+                  </CardHeader>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="answers" className="space-y-6">
+            <div className="space-y-4">
+              {recentAnswers.map((answer) => (
+                <Card key={answer.id}>
+                  <CardHeader>
+                    <CardTitle className="text-base text-blue-600">{answer.questionTitle}</CardTitle>
+                    <CardDescription className="text-base mt-2">{answer.content}</CardDescription>
+                    <div className="flex items-center justify-between pt-4">
+                      <div className="flex items-center space-x-4 text-sm text-gray-600">
+                        <span className="font-medium">{answer.author}</span>
+                        <span>{answer.timeAgo}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <ThumbsUp className="h-4 w-4" />
+                        <span className="text-sm">{answer.likes}</span>
+                      </div>
+                    </div>
+                  </CardHeader>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="ask" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Diretrizes do Fórum</CardTitle>
+                <CardTitle>Faça uma nova pergunta</CardTitle>
+                <CardDescription>
+                  Descreva sua dúvida com detalhes para receber a melhor ajuda
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <ul className="text-sm space-y-2 text-gray-600">
-                  <li>• Seja respeitoso com todos os participantes</li>
-                  <li>• Use títulos descritivos para suas perguntas</li>
-                  <li>• Marque como resolvida quando sua dúvida for esclarecida</li>
-                  <li>• Ajude outros estudantes sempre que possível</li>
-                  <li>• Evite spam ou conteúdo irrelevante</li>
-                </ul>
+              <CardContent className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium">Título da pergunta</label>
+                  <Input placeholder="Ex: Como resolver equação do 2º grau?" />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Matéria</label>
+                  <Input placeholder="Ex: Matemática, História, Ciências..." />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Descrição detalhada</label>
+                  <Textarea
+                    placeholder="Descreva sua dúvida com detalhes..."
+                    value={newQuestion}
+                    onChange={(e) => setNewQuestion(e.target.value)}
+                    rows={6}
+                  />
+                </div>
+                <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-500">
+                  <Send className="h-4 w-4 mr-2" />
+                  Publicar Pergunta
+                </Button>
               </CardContent>
             </Card>
-          </div>
-        </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

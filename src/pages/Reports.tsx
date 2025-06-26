@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,7 +13,8 @@ import {
   Target,
   BookOpen,
   Award,
-  Filter
+  Filter,
+  LogOut
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -43,7 +43,10 @@ const Reports = () => {
       <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div 
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => navigate("/")}
+            >
               <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-2 rounded-xl">
                 <BarChart3 className="h-6 w-6 text-white" />
               </div>
@@ -59,6 +62,14 @@ const Reports = () => {
               <Button className="bg-gradient-to-r from-blue-500 to-purple-500">
                 <Download className="h-4 w-4 mr-2" />
                 Exportar
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => navigate("/")}
+                className="flex items-center space-x-2"
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Sair</span>
               </Button>
             </div>
           </div>
